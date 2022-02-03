@@ -42,7 +42,7 @@ class Customer
         }
     }
 
-    public function create()
+    public function create() // OK
     {
         $customer = new Database('customers');
         $address = new Database('address');
@@ -77,7 +77,6 @@ class Customer
                 }
                 $resultCustomerCreated['addressCreated'] = $resultAddressCreated;
             }
-            print_r($resultCustomerCreated);
             return $resultCustomerCreated;
         } catch (Exception $e) {
             print $e->getMessage();
@@ -85,20 +84,24 @@ class Customer
         }
     }
 
-    public function getCustomer($id)
+    public function getCustomer($id) // OK
     {
         try {
-            return (new Database('customers'))->select('id = ' . $id)->fetchObject();
+            $customer = (new Database('customers'))->select('id = ' . $id);
+            $resultGetCustomer = $customer->fetchObject();
+            return $resultGetCustomer;
         } catch (PDOException $e) {
             print $e->getMessage();
             echo "Error: " . $e->getMessage();
         }
     }
 
-    public function getCustomers()
+    public function getCustomers() // OK
     {
         try {
-            return (new Database('customers'))->select()->fetchAll();
+            $customers = (new Database('customers'))->select();
+            $resultGetCustomers = $customers->fetchAll();
+            return $resultGetCustomers;
         } catch (PDOException $e) {
             print $e->getMessage();
             echo "Error: " . $e->getMessage();
@@ -124,21 +127,21 @@ class Customer
         }
     }
 
-    public function delete($id, $active)
+    public function delete($id, $active) // OK
     {
         try {
             $whereCustomer = 'id = ' . $id;
             $values = ['active' => $active];
             $customer = (new Database('customers'))->update($whereCustomer, $values);
             $resultCustomer = $customer->rowCount();
-            $resultDeleteCustomerAndAddress = array('customerDeleted' => $resultCustomer);
+            $resultCustomerAndAndAddressDelete = array('customerDeleted' => $resultCustomer);
 
             if ($customer == 1) {
                 $whereAddress = 'id_customer = ' . $id;
                 $address = (new Database('address'))->update($whereAddress, $values);
                 $resultAddress = $address->rowCount();
-                $resultDeleteCustomerAndAddress['addressDeleted'] = $resultAddress;
-                return ($resultDeleteCustomerAndAddress);
+                $resultCustomerAndAndAddressDelete['addressDeleted'] = $resultAddress;
+                return $resultCustomerAndAndAddressDelete;
             } else {
                 return false;
             }

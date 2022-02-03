@@ -39,7 +39,6 @@ class Database
 
     public function create($values)
     {
-        print_r($values);
         $campos = array_keys($values);
         $binds  = array_pad([], count($campos), '?');
         $query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $campos) . ') values (' . implode(',', $binds) . ')';
