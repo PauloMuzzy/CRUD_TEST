@@ -85,12 +85,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 }
-
-
-        // case 'DELETE':
-        //     echo '$_DELETE';
-        //     break;
-
- 
-// {"cpfCustomer":"12312312312","street":"rua teste","number":"123","district":"centro","zipCode":"13481466","city":"limeira","state":"sao paulo"}
-// {"id":"1","cpfCustomer":"12312312312","street":"rua teste","number":"123","district":"barroca","zipCode":"13481466","city":"limeira","state":"sao paulo"}
