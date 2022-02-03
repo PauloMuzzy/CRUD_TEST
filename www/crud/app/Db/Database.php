@@ -56,18 +56,13 @@ class Database
 
     public function update($where, $values)
     {
-        $campos = array_keys($values);
-        $query = 'UPDATE ' . $this->table . ' SET ' . implode('=?,', $campos) . '=? WHERE ' . $where;
-        print_r($query);
-        $this->execute($query, array_values($values));
-        return true;
+        try {
+            $campos = array_keys($values);
+            $query = 'UPDATE ' . $this->table . ' SET ' . implode('=?,', $campos) . '=? WHERE ' . $where;
+            return  $this->execute($query, array_values($values));
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            echo "Error: " . $e->getMessage();
+        }
     }
-
-    // public function delete($where)
-    // {
-    //     print_r($where);
-    //     $query = 'DELETE FROM ' . $this->table . ' WHERE ' . $where;
-    //     $this->execute($query);
-    //     return true;
-    // }
 }

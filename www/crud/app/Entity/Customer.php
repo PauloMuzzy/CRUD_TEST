@@ -114,22 +114,24 @@ class Customer
         }
     }
 
-    public static function delete($id)
+    public function delete($id, $active)
     {
-        $where = 'id = ' . $id;
-        $values = ['active' => 0];
-        return (new Database('customers'))->update($where, $values);
-    }
-
-    public function disable($id)
-    {
-        $where = 'id = ' . $id;
-        $values = [
-            'active' => 0
-        ];
-
         try {
-            return (new Database('customer'))->update($where, $values);
+            $whereCustomer = 'id = ' . $id;
+            $values = ['active' => $active];
+            $customer = (new Database('customers'))->update($whereCustomer, $values);
+            $resultCustomer = $customer->rowCount();
+            $resultDeleteCustomerAndAddress = array('customerDeleted' => $resultCustomer);
+
+            if ($customer == 1) {
+                $whereAddress = 'id_customer = ' . $id;
+                $address = (new Database('address'))->update($whereAddress, $values);
+                $resultAddress = $address->rowCount();
+                $resultDeleteCustomerAndAddress['addressDeleted'] = $resultAddress;
+                return ($resultDeleteCustomerAndAddress);
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             print $e->getMessage();
             echo "Error: " . $e->getMessage();

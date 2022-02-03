@@ -90,6 +90,8 @@ class Address
 
     public function delete()
     {
-        return (new DataBase('addresses'))->delete('id = ' . $this->id);
+        $where = 'id = ' . $id;
+        $values = ['active' => 0];
+        return (new Database('address'))->update($where, $values);
     }
 }

@@ -90,12 +90,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'DELETE':
         $id = $data['id'];
+        $active = $data['active'];
 
         if (isset($id)) {
-            $user = new Customer(
-                $id
+            $customer = new Customer(
+                $id,
+                $active
             );
-            $user->delete($id);
+            $resultDeleteCustomerAndAddress =  $customer->delete($id, $active);
+            print json_encode($resultDeleteCustomerAndAddress);
         }
         break;
 }
