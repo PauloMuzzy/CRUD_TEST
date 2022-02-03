@@ -1,0 +1,47 @@
+                <!-- <div id="adresses">
+                    <div class="divAddress">
+                        <label for="address01RegisterCustomer">Endereço 01</label>
+                        <input type="text" name="addressRegisterCustomer" id="addressRegisterCustomer" />
+                        <button class="btn-lightGreen" id="anotherAddress01">Definir como endereço principal</button>
+                        <div class="divAddressBtns">
+                            <button class="btn-orange" id="btnAddress02">Adicionar outro endereço</button>
+                            <button class="btn-red" id="btnAddress02X">X</button>
+                        </div>
+                    </div>
+
+                    <div id="address02" class="divAddress">
+                        <label for="address02RegisterCustomer">Endereço 02</label>
+                        <input type="text" name="address02RegisterCustomer" id="address02RegisterCustomer" />
+                        <button class="btn-lightGreen" id="anotherAddress02">Definir como endereço principal</button>
+                        <div class="divAddressBtns">
+                            <button class="btn-orange" id="btnAddress03">Adicionar outro endereço</button>
+                            <button class="btn-red" id="btnAddress03X">X</button>
+                        </div>
+                    </div>
+
+                    <div id="address03" class="divAddress">
+                        <label for="address03RegisterCustomer">Endereço 03</label>
+                        <input type="text" name="address03RegisterCustomer" id="address03RegisterCustomer" />
+                        <button class="btn-lightGreen" id="anotherAddress03">Definir como endereço principal</button>
+                        <div class="divAddressBtns">
+                            <button class="btn-orange" id="btnAddress04">Adicionar outro endereço</button>
+                            <button class="btn-red" id="btnAddress04X">X</button>
+                        </div>
+                    </div>
+
+                    <div id="address04" class="divAddress">
+                        <label for="address04RegisterCustomer">Endereço 04</label>
+                        <input type="text" name="address04RegisterCustomer" id="address04RegisterCustomer" />
+                        <button class="btn-lightGreen" id="anotherAddress04">Definir como endereço principal</button>
+                        <div class="divAddressBtns">
+                            <button class="btn-orange" id="btnAddress05">Adicionar outro endereço</button>
+                            <button class="btn-red" id="btnAddress05X">X</button>
+                        </div>
+                    </div>
+
+                    <div id="address05" class="divAddress">
+                        <label for="address05RegisterCustomer">Endereço 05</label>
+                        <input type="text" name="address05RegisterCustomer" id="address05RegisterCustomer" />
+                        <button class="btn-lightGreen" id="anotherAddress05">Definir como endereço principal</button>
+                    </div>
+                </div> -->
