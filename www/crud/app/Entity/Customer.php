@@ -2,9 +2,7 @@
 
 namespace App\Entity;
 
-use Exception;
 use \App\Db\Database;
-use PDOException;
 
 class Customer
 {
@@ -28,18 +26,14 @@ class Customer
         $active     = NULL
 
     ) {
-        try {
-            $this->id           = $id;
-            $this->name         = $name;
-            $this->birthDate    = $birthDate;
-            $this->cpf          = $cpf;
-            $this->document     = $document;
-            $this->phone        = $phone;
-            $this->active       = $active;
-            $this->address      = $address;
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        $this->id           = $id;
+        $this->name         = $name;
+        $this->birthDate    = $birthDate;
+        $this->cpf          = $cpf;
+        $this->document     = $document;
+        $this->phone        = $phone;
+        $this->active       = $active;
+        $this->address      = $address;
     }
 
     public function create() // OK
@@ -47,65 +41,40 @@ class Customer
         $customer = new Database('customers');
         $address = new Database('address');
         $addressCustomer = $this->address;
-        $resultAddressCreated = [];
 
-        try {
-            $customerCreated = $customer->create([
-                'name'          => $this->name,
-                'birth_date'    => $this->birthDate,
-                'cpf'           => $this->cpf,
-                'document'      => $this->document,
-                'phone'         => $this->phone,
+        $customerCreated = $customer->create([
+            'name'          => $this->name,
+            'birth_date'    => $this->birthDate,
+            'cpf'           => $this->cpf,
+            'document'      => $this->document,
+            'phone'         => $this->phone,
+            'active'        => 1
+        ]);
+        if ($customerCreated > 0) {
+            $address->create([
+                'id_customer'   => $customerCreated,
+                'street'        => $addressCustomer['street'],
+                'number'        => $addressCustomer['number'],
+                'district'      => $addressCustomer['district'],
+                'zip_code'      => $addressCustomer['zipCode'],
+                'city'          => $addressCustomer['city'],
+                'state'         => $addressCustomer['state'],
                 'active'        => 1
             ]);
-
-            $resultCustomerCreated = array('customerCreated' => $customerCreated);
-
-            if ($customerCreated > 0) {
-                for ($i = 0; $i < count($addressCustomer); $i++) {
-                    $addressCreated = $address->create([
-                        'id_customer'   => $customerCreated,
-                        'street'        => $this->address[$i]['street'],
-                        'number'        => $this->address[$i]['number'],
-                        'district'      => $this->address[$i]['district'],
-                        'zip_code'      => $this->address[$i]['zipCode'],
-                        'city'          => $this->address[$i]['city'],
-                        'state'         => $this->address[$i]['state'],
-                        'active'        => 1
-                    ]);
-                    array_push($resultAddressCreated, $addressCreated);
-                }
-                $resultCustomerCreated['addressCreated'] = $resultAddressCreated;
-            }
-            return $resultCustomerCreated;
-        } catch (Exception $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
+            return true;
+        } else {
+            return $customerCreated;
         }
     }
 
-    public function getCustomer($id) // OK
+    public function getCustomer($id)
     {
-        try {
-            $customer = (new Database('customers'))->select('id = ' . $id);
-            $resultGetCustomer = $customer->fetchObject();
-            return $resultGetCustomer;
-        } catch (PDOException $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
-        }
+        $customer = (new Database('customers'))->select('id = ' . $id);
     }
 
-    public function getCustomers() // OK
+    public function getCustomers()
     {
-        try {
-            $customers = (new Database('customers'))->select();
-            $resultGetCustomers = $customers->fetchAll();
-            return $resultGetCustomers;
-        } catch (PDOException $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
-        }
+        $customers = (new Database('customers'))->select();
     }
 
     public function update()
@@ -118,36 +87,25 @@ class Customer
             'document'      => $this->document,
             'phone'         => $this->phone
         ];
-
-        try {
-            return (new Database('customers'))->update($where, $values);
-        } catch (PDOException $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
-        }
+        (new Database('customers'))->update($where, $values);
     }
 
-    public function delete($id, $active) // OK
+    public function delete($id, $active)
     {
-        try {
-            $whereCustomer = 'id = ' . $id;
-            $values = ['active' => $active];
-            $customer = (new Database('customers'))->update($whereCustomer, $values);
-            $resultCustomer = $customer->rowCount();
-            $resultCustomerAndAndAddressDelete = array('customerDeleted' => $resultCustomer);
+        $whereCustomer = 'id = ' . $id;
+        $values = ['active' => $active];
+        $customer = (new Database('customers'))->update($whereCustomer, $values);
+        $resultCustomer = $customer->rowCount();
+        $resultCustomerAndAndAddressDelete = array('customerDeleted' => $resultCustomer);
 
-            if ($customer == 1) {
-                $whereAddress = 'id_customer = ' . $id;
-                $address = (new Database('address'))->update($whereAddress, $values);
-                $resultAddress = $address->rowCount();
-                $resultCustomerAndAndAddressDelete['addressDeleted'] = $resultAddress;
-                return $resultCustomerAndAndAddressDelete;
-            } else {
-                return false;
-            }
-        } catch (PDOException $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
+        if ($customer == 1) {
+            $whereAddress = 'id_customer = ' . $id;
+            $address = (new Database('address'))->update($whereAddress, $values);
+            $resultAddress = $address->rowCount();
+            $resultCustomerAndAndAddressDelete['addressDeleted'] = $resultAddress;
+            return $resultCustomerAndAndAddressDelete;
+        } else {
+            return false;
         }
     }
 }

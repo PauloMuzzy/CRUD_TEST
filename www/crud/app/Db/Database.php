@@ -41,9 +41,14 @@ class Database
     {
         $campos = array_keys($values);
         $binds  = array_pad([], count($campos), '?');
-        $query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $campos) . ') values (' . implode(',', $binds) . ')';
-        $this->execute($query, array_values($values));
-        return $this->connection->lastInsertId();
+        try {
+            $query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $campos) . ') values (' . implode(',', $binds) . ')';
+            $this->execute($query, array_values($values));
+            return ($this->connection->lastInsertId());
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return "Error: " . $e->getMessage();
+        }
     }
 
     public function select($where = null, $limit = null, $campos = '*')
@@ -51,7 +56,8 @@ class Database
         $where = strlen($where) ? 'WHERE ' . $where : '';
         $limit = strlen($limit) ? 'LIMIT ' . $limit : '';
         $query = 'SELECT ' . $campos . ' FROM ' . $this->table . ' ' . $where . ' ' . $limit;
-        return $this->execute($query);
+        $this->execute($query);
+        return $this->$query->fetchAll();
     }
 
     public function update($where, $values)

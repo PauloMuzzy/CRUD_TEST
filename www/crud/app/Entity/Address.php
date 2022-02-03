@@ -72,13 +72,12 @@ class Address
     {
         $where = 'id = ' . $this->id;
         $values = [
-            'cpf_customer'  => $this->cpfCustomer,
             'street'        => $this->street,
             'number'        => $this->number,
             'district'      => $this->district,
             'zip_code'      => $this->zipCode,
             'city'          => $this->city,
-            'state'         => $this->state,
+            'state'         => $this->state
         ];
         try {
             return (new Database('address'))->update($where, $values);

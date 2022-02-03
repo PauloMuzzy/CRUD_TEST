@@ -11,6 +11,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'POST': // OK
+
         $name       = $data['name'];
         $birthDate  = $data['birthDate'];
         $cpf        = $data['cpf'];
@@ -35,8 +36,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $phone,
                 $address
             );
-            $resultCustomerCreated = $customer->create();
-            print json_encode($resultCustomerCreated);
+            print json_encode($customer->create());
         }
         break;
 
@@ -45,8 +45,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $id = $_GET['id'];
         if ($id == NULL) {
             $customer = new Customer();
-            $resultGetCustomer = $customer->getCustomers();
-            print json_encode($resultGetCustomer);
+            print json_encode($customer->getCustomers());
             break;
         } else {
             if (isset(
@@ -55,14 +54,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $customer = new Customer(
                     $id
                 );
-                $resultGetCustomers = $customer->getCustomer($id);
-                print json_encode($resultGetCustomers);
+                print json_encode($customer->getCustomer($id));
                 break;
             }
         }
 
-
     case 'PUT':
+
         $id         = $data['id'];
         $name       = $data['name'];
         $birthDate  = $data['birthDate'];
@@ -87,11 +85,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $phone
             );
             print_r($customer);
-            $customer->update();
+            $resultCustomerUpdate = $customer->update();
+            print json_encode($resultCustomerUpdate);
         }
         break;
 
     case 'DELETE': // OK
+
         $id = $data['id'];
         $active = $data['active'];
 
