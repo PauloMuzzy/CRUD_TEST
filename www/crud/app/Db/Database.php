@@ -44,6 +44,7 @@ class Database
         $binds  = array_pad([], count($campos), '?');
         $query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $campos) . ') values (' . implode(',', $binds) . ')';
         $this->execute($query, array_values($values));
+        return $this->connection->lastInsertId();
     }
 
     public function select($where = null, $limit = null, $campos = '*')

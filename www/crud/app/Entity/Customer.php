@@ -44,12 +44,13 @@ class Customer
 
     public function create()
     {
-        print_r($this);
-        $address = $this->address;
-        $db         = new Database('customers');
-        $db2        = new Database('address');
+        $customer = new Database('customers');
+        $address = new Database('address');
+        $addressCustomer = $this->address;
+        $resultAddressCreated = [];
+
         try {
-            $db->create([
+            $customerCreated = $customer->create([
                 'name'          => $this->name,
                 'birth_date'    => $this->birthDate,
                 'cpf'           => $this->cpf,
@@ -57,18 +58,27 @@ class Customer
                 'phone'         => $this->phone,
                 'active'        => 1
             ]);
-            for ($i = 0; $i < count($address); $i++) {
-                $db2->create([
-                    'cpf_customer'  => $this->cpf,
-                    'street'        => $this->address[$i]['street'],
-                    'number'        => $this->address[$i]['number'],
-                    'district'      => $this->address[$i]['district'],
-                    'zip_code'      => $this->address[$i]['zipCode'],
-                    'city'          => $this->address[$i]['city'],
-                    'state'         => $this->address[$i]['state'],
-                    'active'        => 1
-                ]);
+
+            $resultCustomerCreated = array('customerCreated' => $customerCreated);
+
+            if ($customerCreated > 0) {
+                for ($i = 0; $i < count($addressCustomer); $i++) {
+                    $addressCreated = $address->create([
+                        'id_customer'   => $customerCreated,
+                        'street'        => $this->address[$i]['street'],
+                        'number'        => $this->address[$i]['number'],
+                        'district'      => $this->address[$i]['district'],
+                        'zip_code'      => $this->address[$i]['zipCode'],
+                        'city'          => $this->address[$i]['city'],
+                        'state'         => $this->address[$i]['state'],
+                        'active'        => 1
+                    ]);
+                    array_push($resultAddressCreated, $addressCreated);
+                }
+                $resultCustomerCreated['addressCreated'] = $resultAddressCreated;
             }
+            print_r($resultCustomerCreated);
+            return $resultCustomerCreated;
         } catch (Exception $e) {
             print $e->getMessage();
             echo "Error: " . $e->getMessage();

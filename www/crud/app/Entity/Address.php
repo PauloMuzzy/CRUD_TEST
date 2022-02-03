@@ -88,7 +88,7 @@ class Address
         }
     }
 
-    public function delete()
+    public function delete($id)
     {
         $where = 'id = ' . $id;
         $values = ['active' => 0];
