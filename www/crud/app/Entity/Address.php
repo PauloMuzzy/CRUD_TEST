@@ -46,7 +46,7 @@ class Address
     {
         try {
             $db = new Database('address');
-            return $db->insert([
+            return $db->create([
                 'cpf_customer'  => $this->cpfCustomer,
                 'street'        => $this->street,
                 'number'        => $this->number,
@@ -88,7 +88,7 @@ class Address
         }
     }
 
-    public function erase()
+    public function delete()
     {
         return (new DataBase('addresses'))->delete('id = ' . $this->id);
     }

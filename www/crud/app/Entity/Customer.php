@@ -95,7 +95,6 @@ class Customer
         }
     }
 
-
     public function update()
     {
         $where = 'id = ' . $this->id;
@@ -117,7 +116,9 @@ class Customer
 
     public static function delete($id)
     {
-        $customer = (new Database('customers'))->delete('id = ' . $id);
+        $where = 'id = ' . $id;
+        $values = ['active' => 0];
+        return (new Database('customers'))->update($where, $values);
     }
 
     public function disable($id)

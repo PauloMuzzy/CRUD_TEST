@@ -83,30 +83,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $document,
                 $phone
             );
+            print_r($customer);
             $customer->update();
         }
         break;
 
     case 'DELETE':
         $id = $data['id'];
-        $action = ['action'];
 
-        if ($action == 'delete') {
-
-            if (isset($id)) {
-                $user = new Customer(
-                    $id
-                );
-                $user->delete($id);
-            }
-        } else if ($action == 'disable') {
-
-            if (isset($id)) {
-                $user = new Customer(
-                    $id
-                );
-                $user->disable($id);
-            }
+        if (isset($id)) {
+            $user = new Customer(
+                $id
+            );
+            $user->delete($id);
         }
         break;
 }

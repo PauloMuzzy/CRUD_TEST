@@ -44,8 +44,6 @@ RETORNA - OBJETO
   "active": "1"
 }
 
---------------------------------------------------------------------GET
-
 GET CUSTOMER -> busca todos clientes
 Não pasar parâmentros
 RETONRNA - ARRAY DE OBJETO
