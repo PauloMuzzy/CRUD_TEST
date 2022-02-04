@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="index.js"></script>
+
+    <title>HOME</title>
+</head>
+
+<body>
+
+    <header>
+        <img id="kabumLogo" src="./img/logokabum.png" alt="LOGO KABUM">
+        <span id="makeALogin">
+            <p>Faça
+                <a href="./index.html">login</a>
+                ou <br>crie seu
+                <a href="./register.html">cadasto</a>
+            </p>
+        </span>
+        <span id="salutation">
+            <img src="./img/userninja.png" class="card-img-top" id="userNinjaSautation" alt="ninja">
+            <span id="salutationText">
+                <p>Olá,
+                <p id="userNameSalutation"></p>
+                </p>
+            </span>
+        </span>
+    </header>
+
+    <nav>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                HOME
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item" href="./index.html">LOGIN</a></li>
+                <li><a class="dropdown-item" href="./register.html">CADASTRE-SE</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                CLIENTES
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item drop1" href="./createCustomer.html">CADASTRAR</a></li>
+                <li><a class="dropdown-item drop2" href="./readCustomer.html">LISTAGEM</a></li>
+                <li><a class="dropdown-item drop3" href="./updateCustomer.html">ALTERAR</a></li>
+                <li><a class="dropdown-item drop4" href="./deleteCustomer.html">APAGAR</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                ENDEREÇOS
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item drop1" href="./createAddress.html">CADASTRAR</a></li>
+                <li><a class="dropdown-item drop2" href="./readAddress.html">LISTAGEM</a></li>
+                <li><a class="dropdown-item drop3" href="./updateAddress.html">ALTERAR</a></li>
+                <li><a class="dropdown-item drop4" href="./deleteAddress.html">APAGAR</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton4"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                USUÁRIOS
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item drop2" href="./readUser.html">LISTAGEM</a></li>
+                <li><a class="dropdown-item drop3" href="./updateUser.html">ALTERAR</a></li>
+                <li><a class="dropdown-item drop4" href="./deleteUser.html">APAGAR</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="card" style="width: 18rem;">
+            <img src="./img/userninja.png" class="card-img-top" id="userNinja" alt="ninja">
+            <div class="card-body">
+                <h5 class="card-title">Entrar</h5>
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-success" id="btnLogin">ENTRAR</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a href=""><img src="">Created by Paulo Henrique Kriger Muzzy</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

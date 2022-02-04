@@ -38,7 +38,7 @@ class User
             'name'          => $this->name,
             'email'         => $this->email,
             'hash_password' => $passwordHash,
-            'access'        => 1,
+            'access'        => 2,
             'active'        => 1
         ]);
         if ($user != 0) {

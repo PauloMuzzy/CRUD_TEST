@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #21262D;
+    width: 100%;
+    height: 10%;
+}
+
+#kabumLogo{
+    width: 175px;
+}
+
+#salutation{
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#salutationText{
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    margin: 0px;
+}
+
+#userNinjaSautation{
+    width: 50px;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #6C757D;
+    width: 100%;
+    height: 5%;
+    gap: 50px;
+}
+
+nav button {
+    width: 150px !important;
+    font-weight: 500 !important;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80%;
+    overflow: auto;
+    overflow-y: scroll;
+    background-image: url("./img/backgroundimagekabum.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.card{
+    align-items: center;
+    opacity: 90%;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#btnLogin{
+    width: 100%;
+}
+
+#userNinja{
+    width: 100px;
+    margin-top: 5px;
+}
+
+footer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #21262D;
+    width: 100%;
+    height: 5%;
+    gap: 150px;
+}
+
+footer a{
+    font-weight: 450;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: 750;
+}
+
+a:hover{
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+p {
+    color: whitesmoke;
+}

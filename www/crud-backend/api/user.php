@@ -7,13 +7,15 @@ require '../vendor/autoload.php';
 $data = json_decode(file_get_contents('php://input'), true);
 header("Content-Type: application/json");
 
+print_r($data);
+
 switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'POST': // OK
+
         $name       = $data['name'];
         $email      = $data['email'];
         $password   = $data['password'];
-
         if (isset(
             $name,
             $email,
