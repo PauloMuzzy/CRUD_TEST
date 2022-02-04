@@ -9,7 +9,7 @@ header("Content-Type: application/json");
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST':
+    case 'POST': // OK
         $name       = $data['name'];
         $email      = $data['email'];
         $password   = $data['password'];
@@ -20,6 +20,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $password
         )) {
             $user = new User(
+                $id,
                 $name,
                 $email,
                 $password
@@ -28,65 +29,53 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'GET':
+    case 'GET': // OK
 
         $id = $_GET['id'];
 
-        if (isset($id)) {
-            $user = User::getUser($_GET['id']);
-            print json_encode($user);
+        if ($id != null) {
+            if (isset($id)) {
+                $user = new User($id);
+                print json_encode($user->getUser($id));
+                break;
+            }
+        } else {
+            $users = new User();
+            print json_encode($users->getUsers());
+            break;
         }
-        break;
 
-    case 'PUT':
+    case 'PUT': // OK
 
         $id         = $data['id'];
         $name       = $data['name'];
-        $login      = $data['login'];
         $email      = $data['email'];
-        $password   = $data['password'];
         $access     = $data['access'];
 
         if (isset(
             $id,
             $name,
-            $login,
             $email,
-            $password,
             $access
         )) {
             $user = new User(
                 $id,
                 $name,
-                $login,
                 $email,
                 $password,
                 $access
             );
-            $user->update();
+            print json_encode($user->update());
         }
         break;
 
-    case 'DELETE':
+    case 'DELETE': // OK
 
-        $id = $data['id'];
-        $action = $data['action'];
+        $id     = $data['id'];
 
-        if ($action == 'delete') {
-
-            if (isset($id)) {
-                $user = new User(
-                    $id
-                );
-                $user->delete($id);
-            }
-        } else if ($action == 'disable') {
-
-            if (isset($id)) {
-                $user = new User(
-                    $id
-                );
-                $user->disable($id);
-            }
+        if (isset($id)) {
+            $user = new User($id);
+            print json_encode($user->delete($id));
         }
+        break;
 }

@@ -29,52 +29,60 @@ class User
         $this->active       = $active;
     }
 
-    public function create()
+    public function create() // OK
     {
         $password = $this->password;
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $db = new Database('user');
-        $db->create([
+        $user = (new Database('user'))->create([
             'name'          => $this->name,
             'email'         => $this->email,
-            'hash_password'      => $passwordHash,
+            'hash_password' => $passwordHash,
             'access'        => 1,
             'active'        => 1
         ]);
+        if ($user != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public static function getUser($id)
+    public static function getUser($id) // OK
     {
-        // return (new Database('user'))->select('id = ' . $id);
+        return (new Database('user'))->select('id = ' . $id);
     }
 
-    public function update()
+    public static function getUsers() // OK
     {
-        // $where = 'id = ' . $this->id;
-        // $values = [
-        //     'name'          => $this->name,
-        //     'login'         => $this->login,
-        //     'email'         => $this->email,
-        //     'password'      => $this->password,
-        //     'access'        => $this->access
-        // ];
-
-        // return (new Database('user'))->update($where, $values);
+        return (new Database('user'))->select();
     }
 
-    public static function delete($id)
+    public function update() // OK
     {
-        // (new DataBase('user'))->delete('id = ' . $id);
+        $where = 'id = ' . $this->id;
+        $values = [
+            'name'          => $this->name,
+            'email'         => $this->email,
+            'access'        => $this->access
+        ];
+        $user = (new Database('user'))->update($where, $values);
+        if ($user == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public static function disable($id)
+    public function delete($id) // OK
     {
-        // $where = 'id = ' . $id;
-        // $values = [
-        //     'active' => 0
-        // ];
-
-        // return (new Database('user'))->update($where, $values);
+        $where = 'id = ' . $id;
+        $values = ['active' => 0];
+        $user = (new Database('user'))->update($where, $values);
+        if ($user == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
