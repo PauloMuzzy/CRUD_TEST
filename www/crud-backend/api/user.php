@@ -14,8 +14,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $email      = $data['email'];
         $password   = $data['password'];
 
-        print_r($password);
-
         if (isset(
             $name,
             $email,
@@ -26,7 +24,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $email,
                 $password
             );
-            $user->create();
+            print json_encode($user->create());
         }
         break;
 
