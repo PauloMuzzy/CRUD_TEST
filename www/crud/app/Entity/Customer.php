@@ -41,7 +41,6 @@ class Customer
         $customer = new Database('customers');
         $address = new Database('address');
         $addressCustomer = $this->address;
-
         $customerCreated = $customer->create([
             'name'          => $this->name,
             'birth_date'    => $this->birthDate,
@@ -67,17 +66,19 @@ class Customer
         }
     }
 
-    public function getCustomer($id)
-    {
-        $customer = (new Database('customers'))->select('id = ' . $id);
-    }
-
-    public function getCustomers()
+    public function getCustomers() // OK
     {
         $customers = (new Database('customers'))->select();
+        return $customers[0];
     }
 
-    public function update()
+    public function getCustomer($id) // OK
+    {
+        $customer = (new Database('customers'))->select('id = ' . $id);
+        return $customer;
+    }
+
+    public function update() // OK
     {
         $where = 'id = ' . $this->id;
         $values = [
@@ -88,22 +89,18 @@ class Customer
             'phone'         => $this->phone
         ];
         (new Database('customers'))->update($where, $values);
+        return true;
     }
 
-    public function delete($id, $active)
+    public function delete($id, $active) // OK
     {
         $whereCustomer = 'id = ' . $id;
         $values = ['active' => $active];
         $customer = (new Database('customers'))->update($whereCustomer, $values);
-        $resultCustomer = $customer->rowCount();
-        $resultCustomerAndAndAddressDelete = array('customerDeleted' => $resultCustomer);
-
         if ($customer == 1) {
             $whereAddress = 'id_customer = ' . $id;
-            $address = (new Database('address'))->update($whereAddress, $values);
-            $resultAddress = $address->rowCount();
-            $resultCustomerAndAndAddressDelete['addressDeleted'] = $resultAddress;
-            return $resultCustomerAndAndAddressDelete;
+            (new Database('address'))->update($whereAddress, $values);
+            return true;
         } else {
             return false;
         }

@@ -22,7 +22,7 @@ class Database
             $this->connection = new PDO('mysql:host=db;dbname=crud_teste', 'root', 'root');
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            print_r("Error: " . $e->getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ class Database
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            print_r("Error: " . $e->getMessage());
         }
     }
 
@@ -51,24 +51,29 @@ class Database
         }
     }
 
-    public function select($where = null, $limit = null, $campos = '*')
+    public function select($where = null, $limit = null, $column = '*')
     {
         $where = strlen($where) ? 'WHERE ' . $where : '';
         $limit = strlen($limit) ? 'LIMIT ' . $limit : '';
-        $query = 'SELECT ' . $campos . ' FROM ' . $this->table . ' ' . $where . ' ' . $limit;
-        $this->execute($query);
-        return $this->$query->fetchAll();
+        try {
+            $query = 'SELECT ' . $column . ' FROM ' . $this->table . ' ' . $where . ' ' . $limit;
+            return $this->execute($query)->fetchAll();
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return "Error: " . $e->getMessage();
+        }
     }
 
     public function update($where, $values)
     {
+        $column = array_keys($values);
         try {
-            $campos = array_keys($values);
-            $query = 'UPDATE ' . $this->table . ' SET ' . implode('=?,', $campos) . '=? WHERE ' . $where;
-            return  $this->execute($query, array_values($values));
+
+            $query = 'UPDATE ' . $this->table . ' SET ' . implode('=?,', $column) . '=? WHERE ' . $where;
+            return  $this->execute($query, array_values($values))->rowCount();
         } catch (PDOException $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
+            $e->getMessage();
+            return "Error: " . $e->getMessage();
         }
     }
 }

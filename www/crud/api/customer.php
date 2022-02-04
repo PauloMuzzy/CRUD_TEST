@@ -43,23 +43,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET': // OK
 
         $id = $_GET['id'];
+
         if ($id == NULL) {
             $customer = new Customer();
             print json_encode($customer->getCustomers());
             break;
         } else {
-            if (isset(
-                $id
-            )) {
-                $customer = new Customer(
-                    $id
-                );
-                print json_encode($customer->getCustomer($id));
+            if (isset($id)) {
+                $customers = new Customer($id);
+                print json_encode($customers->getCustomer($id));
                 break;
             }
         }
 
-    case 'PUT':
+    case 'PUT': // OK
 
         $id         = $data['id'];
         $name       = $data['name'];
@@ -84,24 +81,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $document,
                 $phone
             );
-            print_r($customer);
-            $resultCustomerUpdate = $customer->update();
-            print json_encode($resultCustomerUpdate);
+            print json_encode($customer->update());
         }
         break;
 
     case 'DELETE': // OK
 
-        $id = $data['id'];
+        $id     = $data['id'];
         $active = $data['active'];
 
         if (isset($id)) {
-            $customer = new Customer(
-                $id,
-                $active
-            );
-            $resultDeleteCustomerAndAddress =  $customer->delete($id, $active);
-            print json_encode($resultCustomerAndAndAddressDelete);
+            $customer = new Customer($id, $active);
+            print json_encode($customer->delete($id, $active));
         }
         break;
 }
