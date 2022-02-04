@@ -77,3 +77,26 @@ http_response_code(204);
 DELETE CUSTOMER -> Soft Delete de 1 cliente
 {"id":"44"}
 http_response_code(204);
+
+
+---------------------------------------ADDRESS--------------------------
+--------------------------------------------------------------------POST
+{"idCustomer":"83",
+"street":"Teste",
+"number":"50",
+"district":"Centro",
+"zipCode":"13481123",
+"city":"Limeira",
+"state":"São Paulo",
+"active":"1"}
+
+--------------------------------------------------------------------PUT
+{
+"id":"41",
+"street":"teste update1",
+"number": "123",
+"district": "testeup",
+"zip_code": "12312123",
+"city": "teste"
+"state": "testao"
+}

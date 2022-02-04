@@ -68,7 +68,6 @@ class Database
     {
         $column = array_keys($values);
         try {
-
             $query = 'UPDATE ' . $this->table . ' SET ' . implode('=?,', $column) . '=? WHERE ' . $where;
             return  $this->execute($query, array_values($values))->rowCount();
         } catch (PDOException $e) {

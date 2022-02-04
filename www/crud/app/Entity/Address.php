@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use \App\Db\Database;
-use Exception;
 
 class Address
 {
@@ -18,7 +17,7 @@ class Address
 
     public function __construct(
         $id             = NULL,
-        $cpfCustomer    = NULL,
+        $idCustomer     = NULL,
         $street         = NULL,
         $number         = NULL,
         $district       = NULL,
@@ -27,48 +26,52 @@ class Address
         $state          = NULL,
         $active         = NULL
     ) {
-        try {
-            $this->id           = $id;
-            $this->cpfCustomer  = $cpfCustomer;
-            $this->street       = $street;
-            $this->number       = $number;
-            $this->district     = $district;
-            $this->zipCode      = $zipCode;
-            $this->city         = $city;
-            $this->state        = $state;
-            $this->active       = $active;
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+        $this->id           = $id;
+        $this->idCustomer  = $idCustomer;
+        $this->street       = $street;
+        $this->number       = $number;
+        $this->district     = $district;
+        $this->zipCode      = $zipCode;
+        $this->city         = $city;
+        $this->state        = $state;
+        $this->active       = $active;
+    }
+
+    public function create() // OK
+    {
+        $address = (new Database('address'))->create([
+            'id_customer'   => $this->idCustomer,
+            'street'        => $this->street,
+            'number'        => $this->number,
+            'district'      => $this->district,
+            'zip_code'      => $this->zipCode,
+            'city'          => $this->city,
+            'state'         => $this->state,
+            'active'        => 1
+        ]);
+        if ($address != 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public function create()
+    public function getAddress($id) // OK
     {
-        try {
-            $db = new Database('address');
-            return $db->create([
-                'cpf_customer'  => $this->cpfCustomer,
-                'street'        => $this->street,
-                'number'        => $this->number,
-                'district'      => $this->district,
-                'zip_code'      => $this->zipCode,
-                'city'          => $this->city,
-                'state'         => $this->state,
-                'active'        => 1,
-            ]);
-        } catch (Exception $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
-        }
+        return (new Database('address'))->select('id = ' . $id);
     }
 
-    public static function getAddress($id)
+    public function getAddressCustomer($idCustomer) // OK
     {
-        return (new Database('address'))->select('id = ' . $id)
-            ->fetchObject();
+        return (new Database('address'))->select('id_customer = ' . $idCustomer);
     }
 
-    public function update()
+    public function getAddresses() // OK
+    {
+        return (new Database('address'))->select();
+    }
+
+    public function update() // OK
     {
         $where = 'id = ' . $this->id;
         $values = [
@@ -79,11 +82,11 @@ class Address
             'city'          => $this->city,
             'state'         => $this->state
         ];
-        try {
-            return (new Database('address'))->update($where, $values);
-        } catch (Exception $e) {
-            print $e->getMessage();
-            echo "Error: " . $e->getMessage();
+        $address = (new Database('address'))->update($where, $values);
+        if ($address == 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -91,6 +94,11 @@ class Address
     {
         $where = 'id = ' . $id;
         $values = ['active' => 0];
-        return (new Database('address'))->update($where, $values);
+        $address = (new Database('address'))->update($where, $values);
+        if ($address == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

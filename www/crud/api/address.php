@@ -8,8 +8,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST':
-        $cpfCustomer    = $data['cpfCustomer'];
+    case 'POST': // OK
+        $idCustomer    = $data['idCustomer'];
         $street         = $data['street'];
         $number         = $data['number'];
         $district       = $data['district'];
@@ -18,7 +18,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $state          = $data['state'];
 
         if (isset(
-            $cpfCustomer,
+            $idCustomer,
             $street,
             $number,
             $district,
@@ -27,7 +27,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $state
         )) {
             $address = new Address(
-                $cpfCustomer,
+                $idCustomer,
                 $street,
                 $number,
                 $district,
@@ -36,24 +36,36 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $state,
                 $active
             );
-            $address->create();
+            print json_encode($address->create());
         }
         break;
 
-    case 'GET':
+    case 'GET': // OK
 
         $id = $_GET['id'];
+        $idCustomer = $_GET['idCustomer'];
 
-        if (isset($id)) {
-            $address = new Address($id);
-            print json_encode($address);
+        if ($id != null) {
+            if (isset($id)) {
+                $address = new Address();
+                print json_encode($address->getAddress($id));
+                break;
+            }
+        } else if ($idCustomer != null) {
+            if (isset($idCustomer)) {
+                $address = new Address();
+                print json_encode($address->getAddressCustomer($idCustomer));
+                break;
+            }
+        } else {
+            $address = new Address();
+            print json_encode($address->getAddresses());
+            break;
         }
-        break;
 
-    case 'PUT':
+    case 'PUT': // OK
 
         $id = $data['id'];
-        $cpfCustomer = $data['cpfCustomer'];
         $street = $data['street'];
         $number = $data['number'];
         $district = $data['district'];
@@ -63,7 +75,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         if (isset(
             $id,
-            $cpfCustomer,
             $street,
             $number,
             $district,
@@ -73,7 +84,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         )) {
             $address = new Address(
                 $id,
-                $cpfCustomer,
+                $idCustomer,
                 $street,
                 $number,
                 $district,
@@ -81,7 +92,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $city,
                 $state
             );
-            $customer->update();
+            print json_encode($address->update());
+        }
+        break;
+
+    case 'DELETE': // OK
+
+        $id     = $data['id'];
+        $active = $data['active'];
+
+        if (isset($id)) {
+            $address = new Address($id, $active);
+            print json_encode($address->delete($id, $active));
         }
         break;
 }
