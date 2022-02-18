@@ -1,37 +1,53 @@
 <?php
 
+header("Content-Type: application/json");
+
 use App\Entity\User;
 
 require '../vendor/autoload.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
-header("Content-Type: application/json");
-
-print_r($data);
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST': // OK
+    case 'POST':
 
         $name       = $data['name'];
         $email      = $data['email'];
         $password   = $data['password'];
-        if (isset(
-            $name,
-            $email,
-            $password
-        )) {
-            $user = new User(
-                $id,
+
+        if ($name != null) {
+            if (isset(
                 $name,
                 $email,
                 $password
-            );
-            print json_encode($user->create());
+            )) {
+                $user = new User(
+                    $id,
+                    $name,
+                    $email,
+                    $password
+                );
+                print json_encode($user->create());
+            }
+            break;
+        } else {
+            if (isset(
+                $email,
+                $password
+            )) {
+                $user = new User(
+                    $id,
+                    $name,
+                    $email,
+                    $password
+                );
+                print json_encode($user->login($email, $password));
+            }
+            break;
         }
-        break;
 
-    case 'GET': // OK
+    case 'GET':
 
         $id = $_GET['id'];
 
@@ -47,7 +63,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             break;
         }
 
-    case 'PUT': // OK
+    case 'PUT':
 
         $id         = $data['id'];
         $name       = $data['name'];
@@ -71,10 +87,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'DELETE': // OK
+    case 'DELETE':
 
-        $id     = $data['id'];
-
+        $id = $data['id'];
         if (isset($id)) {
             $user = new User($id);
             print json_encode($user->delete($id));

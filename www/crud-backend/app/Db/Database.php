@@ -56,7 +56,7 @@ class Database
         $where = strlen($where) ? 'WHERE ' . $where : '';
         $limit = strlen($limit) ? 'LIMIT ' . $limit : '';
         try {
-            $query = 'SELECT ' . $column . ' FROM ' . $this->table . ' ' . $where . ' ' . $limit;
+            $query = 'SELECT ' . $column . ' FROM ' . $this->table . ' ' . $where . '' . $limit;
             return $this->execute($query)->fetchAll();
         } catch (PDOException $e) {
             $e->getMessage();

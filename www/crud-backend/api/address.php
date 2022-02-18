@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: application/json");
+
 use App\Entity\Address;
 
 require '../vendor/autoload.php';
@@ -8,8 +10,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST': // OK
-        $idCustomer    = $data['idCustomer'];
+    case 'POST':
+        $idCustomer     = $data['idCustomer'];
         $street         = $data['street'];
         $number         = $data['number'];
         $district       = $data['district'];
@@ -18,29 +20,29 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $state          = $data['state'];
 
         if (isset(
-            $idCustomer,
             $street,
             $number,
             $district,
             $zipCode,
             $city,
-            $state
+            $state,
+            $idCustomer
         )) {
             $address = new Address(
-                $idCustomer,
+                $id,
                 $street,
                 $number,
                 $district,
                 $zipCode,
                 $city,
                 $state,
-                $active
+                $idCustomer
             );
             print json_encode($address->create());
         }
         break;
 
-    case 'GET': // OK
+    case 'GET':
 
         $id = $_GET['id'];
         $idCustomer = $_GET['idCustomer'];
@@ -63,7 +65,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             break;
         }
 
-    case 'PUT': // OK
+    case 'PUT':
 
         $id = $data['id'];
         $street = $data['street'];
@@ -84,26 +86,24 @@ switch ($_SERVER['REQUEST_METHOD']) {
         )) {
             $address = new Address(
                 $id,
-                $idCustomer,
                 $street,
                 $number,
                 $district,
                 $zipCode,
                 $city,
-                $state
+                $state,
+                $idCustomer
             );
             print json_encode($address->update());
         }
         break;
 
-    case 'DELETE': // OK
+    case 'DELETE':
 
-        $id     = $data['id'];
-        $active = $data['active'];
-
+        $id = $data['id'];
         if (isset($id)) {
-            $address = new Address($id, $active);
-            print json_encode($address->delete($id, $active));
+            $address = new Address($id);
+            print json_encode($address->delete($id));
         }
         break;
 }

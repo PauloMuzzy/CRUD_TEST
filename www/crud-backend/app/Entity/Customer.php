@@ -36,7 +36,7 @@ class Customer
         $this->address      = $address;
     }
 
-    public function create() // OK
+    public function create()
     {
         $customer = new Database('customers');
         $address = new Database('address');
@@ -62,23 +62,23 @@ class Customer
             ]);
             return true;
         } else {
-            return $customerCreated;
+            return false;
         }
     }
 
-    public function getCustomers() // OK
+    public function getCustomers()
     {
-        $customers = (new Database('customers'))->select();
-        return $customers[0];
+        $customers = (new Database('customers'))->select('active = 1');
+        return $customers;
     }
 
-    public function getCustomer($id) // OK
+    public function getCustomer($id)
     {
-        $customer = (new Database('customers'))->select('id = ' . $id);
+        $customer = (new Database('customers'))->select('id = ' . $id . ' AND active = 1');
         return $customer;
     }
 
-    public function update() // OK
+    public function update()
     {
         $where = 'id = ' . $this->id;
         $values = [
@@ -92,10 +92,10 @@ class Customer
         return true;
     }
 
-    public function delete($id, $active) // OK
+    public function delete($id)
     {
         $whereCustomer = 'id = ' . $id;
-        $values = ['active' => $active];
+        $values = ['active' => 0];
         $customer = (new Database('customers'))->update($whereCustomer, $values);
         if ($customer == 1) {
             $whereAddress = 'id_customer = ' . $id;

@@ -29,7 +29,7 @@ class User
         $this->active       = $active;
     }
 
-    public function create() // OK
+    public function create()
     {
         $password = $this->password;
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -38,7 +38,7 @@ class User
             'name'          => $this->name,
             'email'         => $this->email,
             'hash_password' => $passwordHash,
-            'access'        => 2,
+            'access'        => 1,
             'active'        => 1
         ]);
         if ($user != 0) {
@@ -48,17 +48,17 @@ class User
         }
     }
 
-    public static function getUser($id) // OK
+    public static function getUser($id)
     {
         return (new Database('user'))->select('id = ' . $id);
     }
 
-    public static function getUsers() // OK
+    public static function getUsers()
     {
         return (new Database('user'))->select();
     }
 
-    public function update() // OK
+    public function update()
     {
         $where = 'id = ' . $this->id;
         $values = [
@@ -74,7 +74,7 @@ class User
         }
     }
 
-    public function delete($id) // OK
+    public function delete($id)
     {
         $where = 'id = ' . $id;
         $values = ['active' => 0];
@@ -84,5 +84,18 @@ class User
         } else {
             return false;
         }
+    }
+
+    public function login($email, $password)
+    {
+        $user = (new Database('user'))->select('email = ' . '"' . $email . '"');
+        $name = $user[0]['name'];
+        $hash_password = $user[0]['hash_password'];
+        $access = $user[0]['access'];
+
+        if (password_verify($password, $hash_password)) {
+            return array('name' => $name, 'access' =>  $access, 'valid' => true);
+        }
+        return array('name' => NULL, 'access' =>  NULL, 'valid' => false);
     }
 }

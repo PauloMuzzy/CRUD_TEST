@@ -13,20 +13,17 @@ class Address
     private $zipCode;
     private $city;
     private $state;
-    private $active;
 
     public function __construct(
         $id             = NULL,
-        $idCustomer     = NULL,
         $street         = NULL,
         $number         = NULL,
         $district       = NULL,
         $zipCode        = NULL,
         $city           = NULL,
         $state          = NULL,
-        $active         = NULL
+        $idCustomer     = NULL
     ) {
-        $this->id           = $id;
         $this->idCustomer  = $idCustomer;
         $this->street       = $street;
         $this->number       = $number;
@@ -34,10 +31,10 @@ class Address
         $this->zipCode      = $zipCode;
         $this->city         = $city;
         $this->state        = $state;
-        $this->active       = $active;
+        $this->id           = $id;
     }
 
-    public function create() // OK
+    public function create()
     {
         $address = (new Database('address'))->create([
             'id_customer'   => $this->idCustomer,
@@ -56,22 +53,22 @@ class Address
         }
     }
 
-    public function getAddress($id) // OK
+    public function getAddress($id)
     {
         return (new Database('address'))->select('id = ' . $id);
     }
 
-    public function getAddressCustomer($idCustomer) // OK
+    public function getAddressCustomer($idCustomer)
     {
-        return (new Database('address'))->select('id_customer = ' . $idCustomer);
+        return (new Database('address'))->select('id_customer = ' . $idCustomer . ' AND active = 1');
     }
 
-    public function getAddresses() // OK
+    public function getAddresses()
     {
         return (new Database('address'))->select();
     }
 
-    public function update() // OK
+    public function update()
     {
         $where = 'id = ' . $this->id;
         $values = [
@@ -90,7 +87,7 @@ class Address
         }
     }
 
-    public function delete($id) // OK
+    public function delete($id)
     {
         $where = 'id = ' . $id;
         $values = ['active' => 0];
