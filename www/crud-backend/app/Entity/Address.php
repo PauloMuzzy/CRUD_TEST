@@ -79,6 +79,7 @@ class Address
             'city'          => $this->city,
             'state'         => $this->state
         ];
+        print_r($values);
         $address = (new Database('address'))->update($where, $values);
         if ($address == 1) {
             return true;

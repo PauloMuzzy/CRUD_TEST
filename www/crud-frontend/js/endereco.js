@@ -31,6 +31,7 @@ $(function () {
             } else {
                 $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
                 $('#toastError').toast('show')
+                setTimeout(() => { location.reload() }, 2000);
             }
         })
     }
@@ -43,6 +44,7 @@ $(function () {
             contentType: "application/json",
             dataType: "json",
         })
+        $('#idUpdateModal').val(response[0].id)
         $('#streetUpdateModal').val(response[0].street)
         $('#numberUpdateModal').val(response[0].number)
         $('#districtUpdateModal').val(response[0].district)
@@ -51,6 +53,7 @@ $(function () {
         $('#stateUpdateModal').val(response[0].state)
 
         $('#btnUpdateAddressModal').click(async function () {
+            const id = document.getElementById('idUpdateModal').value
             const street = document.getElementById('streetUpdateModal').value
             const number = document.getElementById('numberUpdateModal').value
             const district = document.getElementById('districtUpdateModal').value
@@ -62,7 +65,7 @@ $(function () {
                 url: '/crud-backend/api/address.php',
                 method: 'PUT',
                 data: JSON.stringify({
-                    id: dataIdBtn,
+                    id: id,
                     street: street,
                     number: number,
                     district: district,
@@ -80,6 +83,7 @@ $(function () {
             } else {
                 $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
                 $('#toastError').toast('show')
+                setTimeout(() => { location.reload() }, 2000);
             }
         })
     }
@@ -102,6 +106,7 @@ $(function () {
         } else {
             $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
             $('#toastError').toast('show')
+            setTimeout(() => { location.reload() }, 2000);
         }
     }
 

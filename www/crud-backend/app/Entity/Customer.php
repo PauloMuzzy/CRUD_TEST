@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use \App\Db\Database;
+use \Exception;
 
 class Customer
 {
@@ -62,7 +63,7 @@ class Customer
             ]);
             return true;
         } else {
-            return false;
+            throw new Exception('OPS! Algo deu errado. Tente novamente!!!');
         }
     }
 

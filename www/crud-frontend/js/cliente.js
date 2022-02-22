@@ -46,6 +46,7 @@ $(function () {
                 } else {
                     $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
                     $('#toastError').toast('show')
+                    setTimeout(() => { location.reload() }, 2000);
                 }
             }
             updateCustomer()
@@ -79,6 +80,7 @@ $(function () {
                 } else {
                     $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
                     $('#toastError').toast('show')
+                    setTimeout(() => { location.reload() }, 2000);
                 }
             }
             deleteCustomer()
@@ -157,6 +159,7 @@ $(function () {
         } else {
             $('#toast-body-error').html('OPS! Algo deu errado, tente novamente!')
             $('#toastError').toast('show')
+            setTimeout(() => { location.reload() }, 2000);
         }
     })
 })

@@ -3,96 +3,128 @@
 header("Content-Type: application/json");
 
 use App\Entity\User;
+use \Exception;
 
 require '../vendor/autoload.php';
+require '../utils/dataValidator.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-switch ($_SERVER['REQUEST_METHOD']) {
+try {
+    switch ($_SERVER['REQUEST_METHOD']) {
 
-    case 'POST':
+        case 'POST':
 
-        $name       = $data['name'];
-        $email      = $data['email'];
-        $password   = $data['password'];
+            $name       =  $data['name'];
+            $email      =  $data['email'];
+            $password   =  $data['password'];
 
-        if ($name != null) {
-            if (isset(
-                $name,
-                $email,
-                $password
-            )) {
-                $user = new User(
-                    $id,
-                    $name,
-                    $email,
-                    $password
-                );
-                print json_encode($user->create());
+            if ($name != null) {
+                $name       = validateData('name',  $data['name']);
+                $email      = validateData('email', $data['email']);
+                try {
+                    $user = new User(
+                        $id,
+                        $name,
+                        $email,
+                        $password
+                    );
+                    print json_encode($user->create());
+                    break;
+                } catch (Exception $e) {
+                    print json_encode([
+                        'status' => 'error',
+                        'message' => ($e->getMessage())
+                    ]);
+                }
             }
-            break;
-        } else {
-            if (isset(
-                $email,
-                $password
-            )) {
+
+            try {
+                $email = validateData('email', $data['email']);
                 $user = new User(
-                    $id,
-                    $name,
+                    NULL,
+                    NULL,
                     $email,
                     $password
                 );
                 print json_encode($user->login($email, $password));
-            }
-            break;
-        }
-
-    case 'GET':
-
-        $id = $_GET['id'];
-
-        if ($id != null) {
-            if (isset($id)) {
-                $user = new User($id);
-                print json_encode($user->getUser($id));
                 break;
+            } catch (Exception $e) {
+                print json_encode([
+                    'status' => 'error',
+                    'message' => ($e->getMessage())
+                ]);
             }
-        } else {
-            $users = new User();
-            print json_encode($users->getUsers());
-            break;
-        }
 
-    case 'PUT':
+        case 'GET':
 
-        $id         = $data['id'];
-        $name       = $data['name'];
-        $email      = $data['email'];
-        $access     = $data['access'];
+            $id = $_GET['id'];
 
-        if (isset(
-            $id,
-            $name,
-            $email,
-            $access
-        )) {
-            $user = new User(
-                $id,
-                $name,
-                $email,
-                $password,
-                $access
-            );
-            print json_encode($user->update());
-        }
-        break;
+            if ($id != null) {
+                try {
+                    $user = new User($id);
+                    print json_encode($user->getUser($id));
+                    break;
+                } catch (Exception $e) {
+                    print json_encode([
+                        'status' => 'error',
+                        'message' => ($e->getMessage())
+                    ]);
+                }
+            }
 
-    case 'DELETE':
+            try {
+                $users = new User();
+                print json_encode($users->getUsers());
+                break;
+            } catch (Exception $e) {
+                print json_encode([
+                    'status' => 'error',
+                    'message' => ($e->getMessage())
+                ]);
+            }
 
-        $id = $data['id'];
-        if (isset($id)) {
-            $user = new User($id);
-            print json_encode($user->delete($id));
-        }
-        break;
+        case 'PUT':
+
+            $id         = validateData('id',    $data['id']);
+            $name       = validateData('name',  $data['name']);
+            $email      = validateData('email', $data['email']);
+            $access     = $data['access'];
+
+            try {
+                $user = new User(
+                    $id,
+                    $name,
+                    $email,
+                    $password,
+                    $access
+                );
+                print json_encode($user->update());
+                break;
+            } catch (Exception $e) {
+                print json_encode([
+                    'status' => 'error',
+                    'message' => ($e->getMessage())
+                ]);
+            }
+
+        case 'DELETE':
+
+            $id = $data['id'];
+            try {
+                $user = new User($id);
+                print json_encode($user->delete($id));
+                break;
+            } catch (Exception $e) {
+                print json_encode([
+                    'status' => 'error',
+                    'message' => ($e->getMessage())
+                ]);
+            }
+    }
+} catch (Exception $e) {
+    print json_encode([
+        'status' => 'error',
+        'message' => ($e->getMessage())
+    ]);
 }
