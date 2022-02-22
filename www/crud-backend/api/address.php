@@ -10,7 +10,6 @@ require '../utils/dataValidator.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-
 try {
     switch ($_SERVER['REQUEST_METHOD']) {
 
