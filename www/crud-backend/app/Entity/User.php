@@ -6,12 +6,12 @@ use \App\Db\Database;
 
 class User
 {
-    private $id;
-    private $name;
-    private $email;
-    private $password;
-    private $access;
-    private $active;
+    private int $id;
+    private string $name;
+    private string $email;
+    private string $password;
+    private string $access;
+    private int $active;
 
     public function __construct(
         $id         = NULL,

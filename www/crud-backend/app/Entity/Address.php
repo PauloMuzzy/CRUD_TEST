@@ -6,13 +6,13 @@ use \App\Db\Database;
 
 class Address
 {
-    private $id;
-    private $street;
-    private $number;
-    private $district;
-    private $zipCode;
-    private $city;
-    private $state;
+    private int $id;
+    private string $street;
+    private int $number;
+    private string $district;
+    private string $zipCode;
+    private string $city;
+    private string $state;
 
     public function __construct(
         $id             = NULL,

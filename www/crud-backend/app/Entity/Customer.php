@@ -7,14 +7,14 @@ use \Exception;
 
 class Customer
 {
-    private $id;
-    private $name;
-    private $birthDate;
-    private $cpf;
-    private $document;
-    private $phone;
-    private $active;
-    private $address;
+    private int $id;
+    private string $name;
+    private string $birthDate;
+    private string $cpf;
+    private string $document;
+    private string $phone;
+    private int $active;
+    private object $address;
 
     public function __construct(
         $id         = NULL,
